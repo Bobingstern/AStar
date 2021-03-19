@@ -12,7 +12,7 @@ let stack = [];
 let done = false;
 
 
-
+let test = []
 
 function Cell_(x, y){
   this.x = x;
@@ -82,15 +82,15 @@ function iterate(){
 
 function getWallCoordinates(){
   let walls = [];
-  for(let x=0; x<w; x++){
-    for(let y=0; y<h; y++){
-      let cell = cells_[x][y];
-      if(cell.isWall){
-        walls.push([cell.x, cell.y]);
+  for (var i=0;i<cells_.length;i++){
+    for (var j=0;j<cells_[i].length;j++){
+      if (cells_[i][j].isWall){
+        walls.push([i, j])
       }
     }
   }
-  
+  console.log(cells_.length, cells.length)
+
   let str = "[";
   for(let i=0; i<walls.length; i++){
     str += "[";
@@ -103,14 +103,10 @@ function getWallCoordinates(){
   str += "]";
   obstacles = []
   for (var n=0;n<walls.length;n++){
-    for (var i=0;i<cells.length;i++){
-      for (var j=0;j<cells[i].length;j++){
-        if (cells[i][j].x == walls[n][0]*cellSize && walls[n][1]*cellSize == cells[i][j].y){
-          cells[i][j].obstacle = true
-        }
-      }
-    }
+    cells[walls[n][0]][walls[n][1]].obstacle = true
   }
+  cells[1][1].visitable = true
+  cells[1][1].obstacle = false
   
 }
 
