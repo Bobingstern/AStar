@@ -17,30 +17,27 @@ function setup() {
   
   base = cellSize
 
-  for (var x=cellSize;x<width-cellSize;x+=cellSize){
+  w = Math.floor(width / cellSize / 2) * 2 - 1;
+  h = Math.floor(height / cellSize / 2) * 2 - 1;
+  for (var x=0;x<w;x++){
 
     let temp = []
-    for (var y=cellSize;y<height-cellSize;y+=cellSize){
-      temp.push(new Cell(x, y))
+    for (var y=0;y<h;y++){
+      temp.push(new Cell(x*cellSize, y*cellSize))
+
     }
     cells.push(temp)
   }
 
   cells[start[0]][start[1]].visitable = true
 
-  for (var i=0;i<cells.length;i++){
-    for (var j=0;j<cells[i].length;j++){
-      cells[i][j].calculateCosts()
-
-    }
-  }
+  
 
   background(56);
   fill(0, 0, 255)
 
   //----
-  w = Math.floor(width / cellSize / 2) * 2 - 1;
-  h = Math.floor(height / cellSize / 2) * 2 - 1;
+  
   
   // initialize cells_
   for(let x=0; x<w; x++){
@@ -143,7 +140,7 @@ function AStar(){
 
 
 function draw() {
-  for (var i=0;i<20;i++){
+  for (var i=0;i<50;i++){
     if (!finish){
       AStar()
     }
@@ -172,6 +169,7 @@ class Cell{
     this.f = 0
     this.obstacle = false
     this.myPrev = []
+    this.calculateCosts()
 
   }
 
@@ -191,8 +189,8 @@ class Cell{
 
 
   calculateCosts(){
-    let g = dist(cells[start[0]][start[1]].x, cells[start[0]][start[1]].y, this.x, this.y)
-    let h = dist(cells[end[0]][end[1]].x, cells[end[0]][end[1]].y, this.x, this.y)
+    let g = dist(start[0]*cellSize, start[1]*cellSize, this.x, this.y)
+    let h = dist(end[0]*cellSize, end[1]*cellSize, this.x, this.y)
     this.f = g+h
 
   }
